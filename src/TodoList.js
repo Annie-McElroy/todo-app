@@ -9,8 +9,9 @@ class TodoList extends Component {
     super(props);
     this.state = { todos: [] };
     this.createTodo = this.createTodo.bind(this);
-    this.removeTodo = this.removeTodo.bind(this)
-      ;  }
+    this.removeTodo = this.removeTodo.bind(this);
+    this.editTodo = this.editTodo.bind(this);
+  }
 
   // Takes newTodo from NewTodoForm and adds it to state
   createTodo(newTodo) {
@@ -19,14 +20,28 @@ class TodoList extends Component {
     });
   }
 
+  editTodo(id, editedTitle) {
+    // New array that maps over existing state todos
+    const editedTodos = this.state.todos.map(todo => {
+      // Check each todo to see if id matches given id, return a copy of the todo with the new updated title (editedTitle)
+      if (todo.id === id) {
+        return { ...todo, title: editedTitle }
+      }
+      // Returns the updated todo
+      return todo;
+    });
+    // Sets state with the new edited array of todos to include the update - never mutate state directly (react rule)
+    this.setState({ todos: editedTodos });
+  }
+
   removeTodo(id) {
     // takes id and filters through existing todos (in state) and removes whatever todos match the id
     this.setState({
       // within todos in state "(todos: ")
       // edit the state.todos by filter ("this.state.todos.filter")
-      // within todos check each todo and filter out which todo id = given id ("(todo => todo.id != id)")
+      // within todos check each todo and filter out which todo id = given id ("(todo => todo.id !== id)")
       // Filter method makes copy of todos that do not equal to the given id (pretty much filtering out the deleted id)
-      todos: this.state.todos.filter(todo => todo.id != id )
+      todos: this.state.todos.filter(todo => todo.id !== id )
     })
   }
 
@@ -38,6 +53,7 @@ class TodoList extends Component {
         id={todo.id}
         title={todo.title}
         removeTodo={this.removeTodo}
+        editTodo={this.editTodo}
       />
     ))
 
