@@ -34,7 +34,7 @@ class TodoList extends Component {
         <h1>Todo List!</h1>
         <h4>A Simple React Todo List App.</h4>
         {todos}
-        <NewTodoForm />
+        <NewTodoForm createTodo={this.createTodo} />
       </div>
     );
   }
