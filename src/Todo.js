@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Todo.css";
 
 class Todo extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class Todo extends Component {
     };
     this.handleRemove = this.handleRemove.bind(this);
     this.editForm = this.editForm.bind(this);
+    this.handleComplete = this.handleComplete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -25,11 +27,15 @@ class Todo extends Component {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
+  handleComplete() {
+    this.props.completeTodo(this.props.id);
+  }
+
   // Submit event to edit the todo by passing up the new edit to the parent state
   handleEdit(event) {
     event.preventDefault();
     // take new todo title and pass up to parent TodoList
-    this.props.editTodo(this.props.id, this.state.title)
+    this.props.editTodo(this.props.id, this.state.title);
     this.setState({ isEditing: false });
   }
 
@@ -64,7 +70,12 @@ class Todo extends Component {
       // if false show the todo as is
       result = (
         <div>
-          <div>{this.props.title}</div>
+          <li
+            className={this.props.completed ? "Completed" : ""}
+            onClick={this.handleComplete}
+          >
+            {this.props.title}
+          </li>
           <button onClick={this.editForm}>Edit</button>
           <button onClick={this.handleRemove}>X</button>
         </div>

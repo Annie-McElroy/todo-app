@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 
 class NewTodoForm extends Component {
-
   constructor(props) {
     super(props);
     this.state = { title: "" };
@@ -12,13 +11,13 @@ class NewTodoForm extends Component {
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const newTodo = { ...this.state, id: uuid() };
+    const newTodo = { ...this.state, id: uuid(), completed: false };
     this.props.createTodo(newTodo);
     this.setState({ title: "" });
   }
@@ -38,8 +37,8 @@ class NewTodoForm extends Component {
         </div>
         <button>Add Todo</button>
       </form>
-    )
-  };
+    );
+  }
 }
 
 export default NewTodoForm;
